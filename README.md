@@ -24,11 +24,11 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 
 ## Funções implementadas
 
-- `imu_init(uint8_t devAddr, gpio_num_t sda_pin, gpio_num_t scl_pin)`: Inicializa a comunicação com o sensor IMU através do protocolo I2C, configurando os pinos SDA e SCL e verificando a presença do dispositivo através do registro "Who am I". Se o IMU responder corretamente, ele sai do modo de sono e está pronto para operar. A função retorna ESP_OK se a inicialização for bem-sucedida ou um código de erro em caso de falha.
+- `imu_init(uint8_t devAddr, gpio_num_t sda_pin, gpio_num_t scl_pin)`: Inicializa a comunicação com o sensor IMU através do protocolo I2C, configurando os pinos SDA e SCL e verificando a presença do dispositivo através do registro "Who am I". Se o IMU responder corretamente, ele sai do modo de sono e está pronto para operar. A função retorna `ESP_OK` se a inicialização for bem-sucedida ou um código de erro em caso de falha.
 
-- `imu_get_acceleration_data(AccelerationData *data)`: Lê os dados brutos de aceleração (nos eixos X, Y e Z) do IMU através da comunicação I2C e converte esses valores em unidades de gravidade (g). Os dados são armazenados na estrutura AccelerationData fornecida, e a função retorna ESP_OK em caso de sucesso ou ESP_FAIL se ocorrer um erro durante a leitura.
+- `imu_get_acceleration_data(AccelerationData *data)`: Lê os dados brutos de aceleração (nos eixos X, Y e Z) do IMU através da comunicação I2C e converte esses valores em unidades de gravidade (g). Os dados são armazenados na estrutura AccelerationData fornecida, e a função retorna `ESP_OK` em caso de sucesso ou `ESP_FAIL` se ocorrer um erro durante a leitura.
 
-- `imu_get_gyroscope_data(GyroscopeData *data)`: Lê os dados brutos de rotação do giroscópio do IMU nos eixos X, Y e Z e os converte em graus por segundo (°/s). Os resultados são armazenados na estrutura GyroscopeData fornecida, e a função retorna ESP_OK se a leitura for bem-sucedida ou ESP_FAIL em caso de erro.
+- `imu_get_gyroscope_data(GyroscopeData *data)`: Lê os dados brutos de rotação do giroscópio do IMU nos eixos X, Y e Z e os converte em graus por segundo (°/s). Os resultados são armazenados na estrutura `GyroscopeData` fornecida, e a função retorna `ESP_OK` se a leitura for bem-sucedida ou `ESP_FAIL` em caso de erro.
 
 - `imu_deinit()`: Desinstala o driver I2C utilizado para a comunicação com o IMU, liberando os recursos associados ao driver e ao barramento I2C. A função retorna ESP_OK se a desinstalação for realizada com sucesso ou um código de erro se houver falha.
 
