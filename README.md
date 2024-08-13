@@ -149,6 +149,13 @@ Esta documentação detalha as funções implementadas para a comunicação com 
 
 ![Esquemático](images/Schematic_ESP32_MPU6050.png)
 
+## Máquina de estados
+
+![Máquina de Estados](images/Maquina de estados.png)
+
+## Diagrama de blocos 
+
+![Diagrama de blocos](images/Diagrama de blocos.png)
 
 ## Protótipo
 
