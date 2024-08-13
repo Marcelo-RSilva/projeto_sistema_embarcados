@@ -30,13 +30,13 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 
 - `imu_get_gyroscope_data(GyroscopeData *data)`: Lê os dados brutos de rotação do giroscópio do IMU nos eixos X, Y e Z e os converte em graus por segundo (°/s). Os resultados são armazenados na estrutura `GyroscopeData` fornecida, e a função retorna `ESP_OK` se a leitura for bem-sucedida ou `ESP_FAIL` em caso de erro.
 
-- `imu_deinit()`: Desinstala o driver I2C utilizado para a comunicação com o IMU, liberando os recursos associados ao driver e ao barramento I2C. A função retorna ESP_OK se a desinstalação for realizada com sucesso ou um código de erro se houver falha.
+- `imu_deinit()`: Desinstala o driver I2C utilizado para a comunicação com o IMU, liberando os recursos associados ao driver e ao barramento I2C. A função retorna `ESP_OK` se a desinstalação for realizada com sucesso ou um código de erro se houver falha.
 
-- `imu_read_data(IMUData *data)`: Combina a leitura dos dados de aceleração e giroscópio do IMU, utilizando as funções imu_get_acceleration_data e imu_get_gyroscope_data, armazenando os resultados na estrutura IMUData. A função retorna ESP_OK se ambas as leituras forem bem-sucedidas ou ESP_FAIL em caso de falha em qualquer uma das leituras.
+- `imu_read_data(IMUData *data)`: Combina a leitura dos dados de aceleração e giroscópio do IMU, utilizando as funções `imu_get_acceleration_data` e `imu_get_gyroscope_data`, armazenando os resultados na estrutura `IMUData`. A função retorna `ESP_OK` se ambas as leituras forem bem-sucedidas ou `ESP_FAIL` em caso de falha em qualquer uma das leituras.
 
-- `imu_calculate_quaternion(const IMUData *data, Quaternion *quaternion)`: Calcula um quaternion simplificado a partir dos dados de aceleração lidos do IMU. Os valores calculados são armazenados na estrutura Quaternion fornecida. A função é um exemplo básico e retorna ESP_OK se o cálculo for bem-sucedido.
+- `imu_calculate_quaternion(const IMUData *data, Quaternion *quaternion)`: Calcula um quaternion simplificado a partir dos dados de aceleração lidos do IMU. Os valores calculados são armazenados na estrutura `Quaternion` fornecida. A função é um exemplo básico e retorna `ESP_OK` se o cálculo for bem-sucedido.
 
-- `imu_calculate_euler_angles(const Quaternion *quaternion, EulerAngle *euler)`: Calcula os ângulos de Euler (roll, pitch, yaw) a partir de um quaternion fornecido. Os ângulos calculados são armazenados na estrutura EulerAngle, e a função retorna ESP_OK se o cálculo for realizado corretamente.
+- `imu_calculate_euler_angles(const Quaternion *quaternion, EulerAngle *euler)`: Calcula os ângulos de Euler (roll, pitch, yaw) a partir de um quaternion fornecido. Os ângulos calculados são armazenados na estrutura `EulerAngle`, e a função retorna `ESP_OK` se o cálculo for realizado corretamente.
 
 
 ## Esquemático
