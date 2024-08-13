@@ -41,13 +41,13 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 
 ## Esquemático
 
-[Esquemático]((images/Schematic_ESP32_MPU6050.png))
+[Esquemático](images/Schematic_ESP32_MPU6050.png)
 
 ## Autores
 
 - [Antonio Roberto](https://github.com/antoniojunior2222)
 - [Aryelson Gonçalves](https://github.com/aryelson1)
-- Clarissa Lucena
-- Felipe Bras
+- [Clarissa Lucena](https://github.com/Clarissa-de-Lucena)
+- [Felipe Bras](https://github.com/felipebrazfb333) 
 - [Guilherme Santos](https://github.com/GuilhermexL)
 - [Marcelo Ribeiro](https://github.com/Marcelo-RSilva)
