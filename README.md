@@ -151,11 +151,11 @@ Esta documentação detalha as funções implementadas para a comunicação com 
 
 ## Máquina de estados
 
-![Máquina de Estados](images/Maquina de estados.png)
+![Máquina de Estados](images/Maquina_de_estados.png)
 
 ## Diagrama de blocos 
 
-![Diagrama de blocos](images/Diagrama de blocos.png)
+![Diagrama de blocos](images/Diagrama_de_blocos.png)
 
 ## Protótipo
 
