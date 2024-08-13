@@ -152,7 +152,7 @@ Esta documentação detalha as funções implementadas para a comunicação com 
 
 ## Protótipo
 
-![Wokwi MPU](https://wokwi.com/projects/406109855123546113)
+[Veja o projeto no Wokwi](https://wokwi.com/projects/406109855123546113)
 
 ## Autores
 
