@@ -39,6 +39,9 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 - `imu_calculate_euler_angles(const Quaternion *quaternion, EulerAngle *euler)`: Calcula os ângulos de Euler (roll, pitch, yaw) a partir de um quaternion fornecido. Os ângulos calculados são armazenados na estrutura EulerAngle, e a função retorna ESP_OK se o cálculo for realizado corretamente.
 
 
+## Esquemático
+
+[Esquemático]((images/Schematic_ESP32_MPU6050.png))
 
 ## Autores
 
