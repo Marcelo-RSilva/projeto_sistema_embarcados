@@ -1,6 +1,7 @@
 # Projeto Sistemas Embarcados IFPB
 
-Este projeto visa a implementação do sensor MPU6050, criando nossa própria biblioteca para tal, que tem as funções de acelerômetro, giroscópio e medir a temperatura.
+Este documento descreve as funções implementadas para a comunicação com um sensor MPU6050 via I2C utilizando o ESP32-IDF e a leitura de dados de aceleração, giroscópio e temperatura, além do cálculo de quaternions e ângulos de Euler.
+
 
 ## Requisitos
 
@@ -21,27 +22,137 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 - SDA - GPIO PIN 21
 - SCL - GPIO PIN 22
 
+## Funções Implementadas
 
-## Funções implementadas
+### `esp_err_t imu_init(uint8_t devAddr, gpio_num_t sda_pin, gpio_num_t scl_pin)`
 
-- `imu_init(uint8_t devAddr, gpio_num_t sda_pin, gpio_num_t scl_pin)`: Inicializa a comunicação com o sensor IMU através do protocolo I2C, configurando os pinos SDA e SCL e verificando a presença do dispositivo através do registro "Who am I". Se o IMU responder corretamente, ele sai do modo de sono e está pronto para operar. A função retorna `ESP_OK` se a inicialização for bem-sucedida ou um código de erro em caso de falha.
+**Descrição**:  
+Inicializa o sensor IMU configurando a comunicação I2C e verifica se o sensor está respondendo corretamente. A função também coloca o sensor em modo ativo, caso ele esteja em modo de sono.
 
-- `imu_get_acceleration_data(AccelerationData *data)`: Lê os dados brutos de aceleração (nos eixos X, Y e Z) do IMU através da comunicação I2C e converte esses valores em unidades de gravidade (g). Os dados são armazenados na estrutura AccelerationData fornecida, e a função retorna `ESP_OK` em caso de sucesso ou `ESP_FAIL` se ocorrer um erro durante a leitura.
+**Parâmetros**:  
+- `devAddr` - Endereço do dispositivo IMU no barramento I2C.
+- `sda_pin` - Pino utilizado para o SDA (dados) do I2C.
+- `scl_pin` - Pino utilizado para o SCL (clock) do I2C.
 
-- `imu_get_gyroscope_data(GyroscopeData *data)`: Lê os dados brutos de rotação do giroscópio do IMU nos eixos X, Y e Z e os converte em graus por segundo (°/s). Os resultados são armazenados na estrutura `GyroscopeData` fornecida, e a função retorna `ESP_OK` se a leitura for bem-sucedida ou `ESP_FAIL` em caso de erro.
+**Retorno**:  
+- `ESP_OK` - Se a inicialização for bem-sucedida.
+- `ESP_FAIL` - Se a instalação do driver I2C falhar.
+- `ESP_ERR_NOT_FOUND` - Se o IMU não responder corretamente.
 
-- `imu_deinit()`: Desinstala o driver I2C utilizado para a comunicação com o IMU, liberando os recursos associados ao driver e ao barramento I2C. A função retorna `ESP_OK` se a desinstalação for realizada com sucesso ou um código de erro se houver falha.
+**Por que é feito**:  
+A função é crucial para garantir que o sensor IMU esteja pronto para comunicação e que o ESP32 possa ler corretamente os dados do sensor.
 
-- `imu_read_data(IMUData *data)`: Combina a leitura dos dados de aceleração e giroscópio do IMU, utilizando as funções `imu_get_acceleration_data` e `imu_get_gyroscope_data`, armazenando os resultados na estrutura `IMUData`. A função retorna `ESP_OK` se ambas as leituras forem bem-sucedidas ou `ESP_FAIL` em caso de falha em qualquer uma das leituras.
+### `esp_err_t imu_get_acceleration_data(AccelerationData *data)`
 
-- `imu_calculate_quaternion(const IMUData *data, Quaternion *quaternion)`: Calcula um quaternion simplificado a partir dos dados de aceleração lidos do IMU. Os valores calculados são armazenados na estrutura `Quaternion` fornecida. A função é um exemplo básico e retorna `ESP_OK` se o cálculo for bem-sucedido.
+**Descrição**:  
+Lê os dados brutos do acelerômetro do IMU e os converte para unidades de gravidade (g).
 
-- `imu_calculate_euler_angles(const Quaternion *quaternion, EulerAngle *euler)`: Calcula os ângulos de Euler (roll, pitch, yaw) a partir de um quaternion fornecido. Os ângulos calculados são armazenados na estrutura `EulerAngle`, e a função retorna `ESP_OK` se o cálculo for realizado corretamente.
+**Parâmetros**:  
+- `data` - Ponteiro para a estrutura onde os dados de aceleração serão armazenados.
+
+**Retorno**:  
+- `ESP_OK` - Se a leitura for bem-sucedida.
+- `ESP_FAIL` - Se ocorrer algum erro durante a leitura.
+
+**Por que é feito**:  
+A leitura dos dados de aceleração é fundamental para determinar o movimento e a orientação do dispositivo em relação ao solo.
+
+### `esp_err_t imu_get_gyroscope_data(GyroscopeData *data)`
+
+**Descrição**:  
+Lê os dados brutos do giroscópio do IMU e os converte para valores de rotação em graus por segundo (°/s).
+
+**Parâmetros**:  
+- `data` - Ponteiro para a estrutura onde os dados do giroscópio serão armazenados.
+
+**Retorno**:  
+- `ESP_OK` - Se a leitura for bem-sucedida.
+- `ESP_FAIL` - Se ocorrer algum erro durante a leitura.
+
+**Por que é feito**:  
+Os dados do giroscópio são usados para medir a velocidade de rotação do dispositivo em torno de seus eixos, o que é essencial para calcular a orientação e estabilizar movimentos.
+
+### `esp_err_t imu_deinit()`
+
+**Descrição**:  
+Desinstala o driver I2C utilizado para se comunicar com o IMU, finalizando a comunicação com o sensor.
+
+**Parâmetros**:  
+- Nenhum.
+
+**Retorno**:  
+- `ESP_OK` - Se a desinstalação for bem-sucedida.
+
+**Por que é feito**:  
+É importante desinstalar o driver I2C para liberar recursos do sistema e garantir que o dispositivo esteja corretamente desligado quando não estiver em uso.
+
+### `esp_err_t imu_read_data(IMUData *data)`
+
+**Descrição**:  
+Lê todos os dados do IMU, combinando as leituras de aceleração e giroscópio, e armazena os resultados na estrutura `IMUData`.
+
+**Parâmetros**:  
+- `data` - Ponteiro para a estrutura onde os dados completos do IMU serão armazenados.
+
+**Retorno**:  
+- `ESP_OK` - Se a leitura for bem-sucedida.
+- `ESP_FAIL` - Se ocorrer algum erro durante a leitura.
+
+**Por que é feito**:  
+Essa função fornece uma leitura completa dos dados do IMU, facilitando a análise do movimento e da orientação em uma única operação.
+
+### `esp_err_t imu_calculate_quaternion(const IMUData *data, Quaternion *quaternion)`
+
+**Descrição**:  
+Calcula um quaternion simplificado utilizando os dados de aceleração do IMU.
+
+**Parâmetros**:  
+- `data` - Ponteiro para os dados do IMU.
+- `quaternion` - Ponteiro para a estrutura onde o quaternion será armazenado.
+
+**Retorno**:  
+- `ESP_OK` - Se o cálculo for bem-sucedido.
+
+**Por que é feito**:  
+Quaternions são utilizados para representar rotações no espaço tridimensional sem as desvantagens de ângulos de Euler, como gimbal lock. Essa função simplificada demonstra como converter dados de aceleração em um quaternion.
+
+### `esp_err_t imu_calculate_euler_angles(const Quaternion *quaternion, EulerAngle *euler)`
+
+**Descrição**:  
+Calcula os ângulos de Euler (roll, pitch, yaw) com base no quaternion fornecido.
+
+**Parâmetros**:  
+- `quaternion` - Ponteiro para o quaternion calculado.
+- `euler` - Ponteiro para a estrutura onde os ângulos de Euler serão armazenados.
+
+**Retorno**:  
+- `ESP_OK` - Se o cálculo for bem-sucedido.
+
+**Por que é feito**:  
+Ângulos de Euler são uma forma comum de expressar a orientação de um objeto no espaço tridimensional. Essa função converte quaternions em ângulos de Euler para aplicações que exigem essa representação.
+
+### `void app_main()`
+
+**Descrição**:  
+Função principal do aplicativo que inicializa o IMU, lê continuamente os dados do sensor, calcula os quaternions e ângulos de Euler, e imprime os resultados no console.
+
+**Por que é feito**:  
+Essa função orquestra todo o fluxo do aplicativo, desde a inicialização do sensor até a leitura e processamento dos dados, garantindo que as informações sobre movimento e orientação sejam obtidas e exibidas corretamente.
+
+## Conclusão
+
+Esta documentação detalha as funções implementadas para a comunicação com o sensor IMU, leitura de dados, e processamento de informações para obter quaternions e ângulos de Euler. Essas funções são essenciais para aplicações que exigem monitoramento preciso de movimento e orientação.
+
 
 
 ## Esquemático
 
 ![Esquemático](images/Schematic_ESP32_MPU6050.png)
+
+
+## Protótipo
+
+![Wokwi MPU](https://wokwi.com/projects/406109855123546113)
 
 ## Autores
 
