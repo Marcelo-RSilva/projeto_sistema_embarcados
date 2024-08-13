@@ -41,7 +41,7 @@ Este projeto visa a implementação do sensor MPU6050, criando nossa própria bi
 
 ## Esquemático
 
-[Esquemático](images/Schematic_ESP32_MPU6050.png)
+- [Esquemático](images/Schematic_ESP32_MPU6050.png)
 
 ## Autores
 
