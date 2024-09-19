@@ -5,6 +5,7 @@
 #include "driver/i2c.h"
 #include "esp_err.h"
 #include "driver/gpio.h"
+#include "imu_tools.h"
 
 // Definições para configuração do I2C
 #define I2C_MASTER_NUM I2C_NUM_0             // Número do I2C utilizado
